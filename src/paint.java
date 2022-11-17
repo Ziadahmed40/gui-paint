@@ -1,9 +1,10 @@
+import javax.lang.model.type.NullType;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+
 import  backend.*;
-public class paint extends JFrame{
+public class paint extends JFrame  {
     private JPanel panel1;
     private JButton circleButton;
     private JButton lineSegmentButton;
@@ -16,6 +17,8 @@ public class paint extends JFrame{
     private JPanel fig_choice_panel;
     private JPanel option_panel;
     private  JFrame p;
+    private int width;
+    private int lenght;
     paint(){
        p=new JFrame("mini_paint");
         p.setVisible(true);
@@ -24,6 +27,8 @@ public class paint extends JFrame{
         p.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.option_panel.setSize(100,900);
         this.draw_panel.setSize(900,500);
+        setLenght(500);
+        setWidth(900);
         this.fig_choice_panel.setSize(800,200);
         final int[] i = {0};
         final int[] j = {0};
@@ -36,17 +41,17 @@ public class paint extends JFrame{
                i[0]++;
                 String []s = new String[3];
                 s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
-                while (s[0]==null||s[0].equals("")||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>900){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than or 900)");
+                while (s[0]==null||s[0].equals("")||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
+                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
                     s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
                 }
                 s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
-                while (s[1]==null||s[1].equals("")||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>500){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than 500)");
+                while (s[1]==null||s[1].equals("")||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
+                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
                     s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
                 }
                 s[2]=JOptionPane.showInputDialog("PLEASE ENTER RADIUS");
-                while (s[2]==null||s[2].equals("")||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2])*2)>500||(Integer.parseInt(s[0])+Integer.parseInt(s[2])*2)>900){
+                while (s[2]==null||s[2].equals("")||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2])*2)>getLenght()||(Integer.parseInt(s[0])+Integer.parseInt(s[2])*2)>getWidth1()){
                     JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller radius to see this circle)");
                     s[2]=JOptionPane.showInputDialog("PLEASE ENTER RADIUS");
                 }
@@ -65,22 +70,22 @@ public class paint extends JFrame{
 
 
                 s[0]= JOptionPane.showInputDialog("PLEASE ENTER X1");
-                while (s[0]==null||s[0].equals("")||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>900){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than or 900)");
+                while (s[0]==null||s[0].equals("")||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
+                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
                     s[0]= JOptionPane.showInputDialog("PLEASE ENTER X1");
                 }
                 s[1]=JOptionPane.showInputDialog("PLEASE ENTER y1");
-                while (s[1]==null||s[1].equals("")||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>500){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than 500)");
+                while (s[1]==null||s[1].equals("")||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
+                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
                     s[1]=JOptionPane.showInputDialog("PLEASE ENTER y1");
                 }
                 s[2]= JOptionPane.showInputDialog("PLEASE ENTER X2");
-                while (s[2]==null||s[2].equals("")||Integer.parseInt(s[2])<0||(Integer.parseInt(s[0])+Integer.parseInt(s[2]))>900){
+                while (s[2]==null||s[2].equals("")||Integer.parseInt(s[2])<0||(Integer.parseInt(s[0])+Integer.parseInt(s[2]))>getWidth1()){
                     JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller width to see this line segment)");
                     s[2]= JOptionPane.showInputDialog("PLEASE ENTER X2");
                 }
                 s[3]= JOptionPane.showInputDialog("PLEASE ENTER Y2");
-                while (s[3]==null||s[3].equals("")||Integer.parseInt(s[3])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[3]))>500){
+                while (s[3]==null||s[3].equals("")||Integer.parseInt(s[3])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[3]))>getLenght()){
                     JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this line segment)");
                     s[3]= JOptionPane.showInputDialog("PLEASE ENTER Y2");
                 }
@@ -96,17 +101,17 @@ public class paint extends JFrame{
                 k[0]++;
                 String []s = new String[3];
                 s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
-                while (s[0]==null ||s[0].equals("")||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>900){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than or 900)");
+                while (s[0]==null ||s[0].equals("")||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
+                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
                     s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
                 }
                 s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
-                while (s[1]==null||s[1].equals("")||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>500){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than 500)");
+                while (s[1]==null||s[1].equals("")||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
+                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
                     s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
                 }
                 s[2]=JOptionPane.showInputDialog("PLEASE ENTER S");
-                while (s[2]==null||s[2].equals("")||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2]))>500||(Integer.parseInt(s[0])+Integer.parseInt(s[2]))>900){
+                while (s[2]==null||s[2].equals("")||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2]))>getLenght()||(Integer.parseInt(s[0])+Integer.parseInt(s[2]))>getWidth1()){
                     JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this square)");
                     s[2]=JOptionPane.showInputDialog("PLEASE ENTER S");
                 }
@@ -123,22 +128,22 @@ public class paint extends JFrame{
                 n[0]++;
                 String []s = new String[4];
                 s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
-                while (s[0]==null||s[0].equals("")||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>900){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than or 900)");
+                while (s[0]==null||s[0].equals("")||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
+                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
                     s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
                 }
                 s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
-                while (s[1]==null||s[1].equals("")||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>500){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than 500)");
+                while (s[1]==null||s[1].equals("")||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
+                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
                     s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
                 }
                s[2]= JOptionPane.showInputDialog("PLEASE ENTER LENGTH");
-                while (s[2]==null||s[2].equals("")||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2]))>500){
+                while (s[2]==null||s[2].equals("")||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2]))>getLenght()){
                     JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this rectangle)");
                     s[2]= JOptionPane.showInputDialog("PLEASE ENTER LENGTH");
                 }
               s[3]=  JOptionPane.showInputDialog("PLEASE ENTER WIDTH");
-                while (s[3]==null||s[3].equals("")||Integer.parseInt(s[3])<0||(Integer.parseInt(s[0])+Integer.parseInt(s[3]))>900){
+                while (s[3]==null||s[3].equals("")||Integer.parseInt(s[3])<0||(Integer.parseInt(s[0])+Integer.parseInt(s[3]))>getWidth1()){
                     JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller width to see this rectangle)");
                     s[3]=  JOptionPane.showInputDialog("PLEASE ENTER WIDTH");
                 }
@@ -157,6 +162,7 @@ public class paint extends JFrame{
               nav.refresh(draw_panel.getGraphics());
               nav.removeShape(nav.returnshape(s));
               comboBox1.removeItem(s);
+              draw_panel.getGraphics().clearRect(1712,961,1712,961);
                 for (shape shape:nav.getshapes()) {
                     shape.draw(draw_panel.getGraphics());
                 }
@@ -186,9 +192,47 @@ public class paint extends JFrame{
 
             }
         });
+            draw_panel.addComponentListener(new ComponentAdapter() {
+                public void componentResized (ComponentEvent e) {
+                    Component c = (Component) e.getSource();
+                   setWidth(c.getWidth());
+                   setLenght(c.getHeight());
+                    if(c.getWidth()>900||c.getWidth()<900||c.getWidth()==900||c.getHeight()>500||c.getHeight()<500||c.getHeight()==500){
+                        for (shape shape:nav.getshapes()) {
+                            shape.draw(draw_panel.getGraphics());
+                        }
+                        System.out.println ("W: "+ c.getWidth()+ "H:"+ c.getHeight ());
+                    }
+                    if(c.getWidth()<=365){
+                        p.addComponentListener(new ComponentAdapter() {
+                            public void componentResized (ComponentEvent e) {
+                                    for (shape shape:nav.getshapes()) {
+                                        shape.draw(draw_panel.getGraphics());
+                                    }
+                            }});
+                    }
+                }});
+
     }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setLenght(int lenght) {
+        this.lenght = lenght;
+    }
+
+    public int getLenght() {
+        return lenght;
+    }
+    public int getWidth1() {
+        return width;
+    }
+
     public static void main(String[] args) {
             new paint();
     }
+
 }
 

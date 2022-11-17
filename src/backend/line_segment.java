@@ -10,7 +10,6 @@ public class line_segment implements shape {
     private double x2;
     private double y2;
     private  Point p;
-    private Point postion;
     private  Color colorcanvis;
     private  Color colorshape;
     public line_segment(double x1, double y1, double x2, double y2,String name){
