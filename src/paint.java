@@ -19,7 +19,7 @@ public class paint extends JFrame{
        p=new JFrame("mini_paint");
         p.setVisible(true);
         p.setContentPane(this.panel1);
-        p.setSize(1000,900);
+        p.setSize(900,600);
         p.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.option_panel.setSize(100,900);
         this.draw_panel.setSize(900,500);
@@ -37,8 +37,8 @@ public class paint extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showInputDialog("PLEASE ENTER X1");
-                JOptionPane.showInputDialog("PLEASE ENTER X2");
                 JOptionPane.showInputDialog("PLEASE ENTER y1");
+                JOptionPane.showInputDialog("PLEASE ENTER X2");
                 JOptionPane.showInputDialog("PLEASE ENTER Y2");
             }
         });

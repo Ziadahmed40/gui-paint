@@ -1,18 +1,15 @@
 import java.awt.*;
 
 public class circle implements shape {
-    private int x;
-    private int y;
+     private  Point postion;
     private int radius;
     circle(int x,int y,int radius){
-        this.x=x;
-        this.y=y;
+        setPosition(new Point(x, y));
         this.radius=radius;
     }
     @Override
     public void setPosition(Point position) {
-          position.x=this.x;
-          position.y=this.y;
+         this.postion=position;
     }
     @Override
     public Point getPosition() {

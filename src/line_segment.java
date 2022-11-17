@@ -1,21 +1,19 @@
 import java.awt.*;
 
 public class line_segment implements shape{
-    private int x1;
-    private int y1;
+    private  Point position;
     private int x2;
     private int y2;
     private  Point p;
     line_segment(int x1,int x2,int y1,int y2){
-      this.x1=x1;
+         setPosition(new Point(x1,y1));
       this.x2=x2;
-      this.y1=y1;
+
       this.y2=y2;
     }
     @Override
     public void setPosition(Point position) {
-       p.x=this.x1;
-       p.y=this.y1;
+     this.position=position;
     }
     @Override
     public Point getPosition() {

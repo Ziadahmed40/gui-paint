@@ -1,20 +1,17 @@
 import java.awt.*;
 
 public class rectangle implements shape{
-    private int x;
-    private int y;
+     private Point postion;
     private int length;
     private int width;
     rectangle(int x, int y , int length , int width){
-        this.x=x;
-        this.y=y;
+        setPosition(new Point(x, y));
         this.length=length;
         this.width=width;
     }
     @Override
     public void setPosition(Point position) {
-        position.y=this.y;
-        position.x=this.x;
+      this.postion=position;
 
     }
     @Override
