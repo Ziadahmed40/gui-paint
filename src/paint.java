@@ -97,6 +97,11 @@ public class paint extends JFrame{
               nav.refresh(draw_panel.getGraphics());
               nav.removeShape(nav.returnshape(s));
               comboBox1.removeItem(s);
+                for (shape shape:nav.getshapes()) {
+                    shape.draw(draw_panel.getGraphics());
+                }
+                nav.resetkey();
+
 
             }
         });

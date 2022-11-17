@@ -35,13 +35,13 @@ public class navigator implements DrawingEngine{
 
     @Override
     public List<shape> getshapes() {
-        return null;
+        return this.shapes;
     }
 
     @Override
     public void refresh(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
         g.clearRect(returnshape(this.key).getPosition().x,returnshape(this.key).getPosition().y, (int) returnshape(this.key).getindex1(), (int) returnshape(this.key).getindex2());
-        resetkey();
+
     }
 }
