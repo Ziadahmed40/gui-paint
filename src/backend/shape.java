@@ -14,6 +14,7 @@ public interface shape {
          public String getname();
          public double getindex1();
         public double getindex2();
+        public void sethelp(String S);
 
 
 }

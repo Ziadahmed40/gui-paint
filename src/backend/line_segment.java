@@ -12,6 +12,7 @@ public class line_segment implements shape {
     private  Point p;
     private  Color colorcanvis;
     private  Color colorshape;
+    private  String help="";
     public line_segment(double x1, double y1, double x2, double y2,String name){
          setPosition(new Point((int) x1, (int) y1));
       this.x2=x2;
@@ -57,17 +58,24 @@ public class line_segment implements shape {
     }
     @Override
     public Color getFillColor() {
-        if(this.colorshape==null)
-            return this.colorcanvis;
-        else return this.colorshape;
+        return this.colorshape;
     }
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
         Line2D.Double l=new Line2D.Double(getPosition().x,getPosition().y,this.x2,this.y2);
-        g.setColor(getFillColor());
-        g.draw(l);
+        if(this.help.equals("")||this.help.equals("border")){
+            g.setColor(getColor());
+            g.draw(l);
+        }
+        if (this.help.equals("innerarea")){
+            g.setColor(getFillColor());
+            g.draw(l);
+        }
     }
-
+    @Override
+    public void sethelp(String S) {
+        this.help=S;
+    }
 
 }

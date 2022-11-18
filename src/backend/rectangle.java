@@ -10,6 +10,8 @@ public class rectangle implements shape  {
     private double width;
     private  Color colorcanvis;
     private  Color colorshape;
+    private  String help="";
+    private boolean x=false;
     public rectangle(double x, double y, double length, double width,String name){
         setPosition(new Point((int) x, (int) y));
         this.length=length;
@@ -56,17 +58,33 @@ public class rectangle implements shape  {
     }
     @Override
     public Color getFillColor() {
-        if(this.colorshape==null)
-            return this.colorcanvis;
-        else return this.colorshape;
+         return this.colorshape;
     }
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
         Rectangle2D.Double r= new Rectangle2D.Double(getPosition().x,getPosition().y,this.length,this.width);
-        g.setColor(getFillColor());
-        g.fill(r);
+        if (this.help.equals("")){
+            g.setColor(getColor());
+            g.draw(r);
+        }
+        if(this.help.equals("border")){
+            if(x){
+                g.setColor(getFillColor());
+                g.fill(r);
+            }
+            g.setColor(getColor());
+            g.draw(r);
+        }
+        if (this.help.equals("innerarea")){
+            g.setColor(getFillColor());
+            g.fill(r);
+            g.setColor(getColor());
+            g.draw(r);
+        }
     }
-
-
+    @Override
+    public void sethelp(String S) {
+       this.help=S;
+    }
 }
