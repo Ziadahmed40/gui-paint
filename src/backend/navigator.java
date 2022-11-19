@@ -34,8 +34,8 @@ public class navigator implements DrawingEngine{
     }
 
     @Override
-    public List<shape> getshapes() {
-        return this.shapes;
+    public  shape[] getshapes() {
+        return this.shapes.toArray(new shape[0]);
     }
 
     @Override

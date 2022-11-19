@@ -7,7 +7,7 @@ public interface DrawingEngine {
        public void addShape(shape backend);
         public void removeShape(shape backend);
         /* return the created shapes objects */
-        public List<shape> getshapes();
+        public  shape[] getshapes();
         /* redraw all shapes on the canvas */
         public void refresh(java.awt.Graphics canvas);
 
