@@ -40,26 +40,28 @@ public class paint extends JFrame  {
             public void actionPerformed(ActionEvent e) {
 
                 String []s = new String[3];
-                s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
-                while (s[0]==null||s[0].equals("")||!check(s[0])||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
+                try {
                     s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
-                }
-                s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
-                while (s[1]==null||s[1].equals("")||!check(s[1])||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
+                    while (s[0].equals("")||!check(s[0])||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
+                        s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
+                    }
                     s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
-                }
-                s[2]=JOptionPane.showInputDialog("PLEASE ENTER RADIUS");
-                while (s[2]==null||s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2])*2)>getLenght()||(Integer.parseInt(s[0])+Integer.parseInt(s[2])*2)>getWidth1()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller radius to see this circle)");
+                    while (s[1].equals("")||!check(s[1])||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
+                        s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
+                    }
                     s[2]=JOptionPane.showInputDialog("PLEASE ENTER RADIUS");
-                }
-                i[0]++;
-                circle c=new circle(Double.parseDouble(s[0]),Double.parseDouble(s[1]),Double.parseDouble(s[2]),"circle"+ i[0]);
-                c.draw(draw_panel.getGraphics());
-                nav.addShape(c);
-                comboBox1.addItem(c.getname());
+                    while (s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2])*2)>getLenght()||(Integer.parseInt(s[0])+Integer.parseInt(s[2])*2)>getWidth1()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller radius to see this circle)");
+                        s[2]=JOptionPane.showInputDialog("PLEASE ENTER RADIUS");
+                    }
+                    i[0]++;
+                    circle c=new circle(Double.parseDouble(s[0]),Double.parseDouble(s[1]),Double.parseDouble(s[2]),"circle"+ i[0]);
+                    c.draw(draw_panel.getGraphics());
+                    nav.addShape(c);
+                    comboBox1.addItem(c.getname());
+                }catch (NullPointerException E){}
             }
         });
         lineSegmentButton.addActionListener(new ActionListener() {
@@ -67,60 +69,63 @@ public class paint extends JFrame  {
             public void actionPerformed(ActionEvent e) {
 
                 String []s = new String[4];
-
-
-                s[0]= JOptionPane.showInputDialog("PLEASE ENTER X1");
-                while (s[0]==null||s[0].equals("")||!check(s[0])||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
-                    s[0]= JOptionPane.showInputDialog("PLEASE ENTER X1");
-                }
-                s[1]=JOptionPane.showInputDialog("PLEASE ENTER y1");
-                while (s[1]==null||s[1].equals("")||!check(s[1])||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
-                    s[1]=JOptionPane.showInputDialog("PLEASE ENTER y1");
-                }
-                s[2]= JOptionPane.showInputDialog("PLEASE ENTER X2");
-                while (s[2]==null||s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[0])+Integer.parseInt(s[2]))>getWidth1()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller width to see this line segment)");
-                    s[2]= JOptionPane.showInputDialog("PLEASE ENTER X2");
-                }
-                s[3]= JOptionPane.showInputDialog("PLEASE ENTER Y2");
-                while (s[3]==null||s[3].equals("")||!check(s[3])||Integer.parseInt(s[3])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[3]))>getLenght()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this line segment)");
-                    s[3]= JOptionPane.showInputDialog("PLEASE ENTER Y2");
-                }
-                j[0]++;
-                line_segment l=new line_segment(Double.parseDouble(s[0]),Double.parseDouble(s[1]),Double.parseDouble(s[2]),Double.parseDouble(s[3]),"line_segment"+ j[0]);
-                l.draw(draw_panel.getGraphics());
-                nav.addShape(l);
-                comboBox1.addItem(l.getname());
-
+                  try {
+                      s[0]= JOptionPane.showInputDialog("PLEASE ENTER X1");
+                      while (s[0].equals("")||!check(s[0])||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
+                          JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
+                          s[0]= JOptionPane.showInputDialog("PLEASE ENTER X1");
+                      }
+                      s[1]=JOptionPane.showInputDialog("PLEASE ENTER y1");
+                      while (s[1].equals("")||!check(s[1])||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
+                          JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
+                          s[1]=JOptionPane.showInputDialog("PLEASE ENTER y1");
+                      }
+                      s[2]= JOptionPane.showInputDialog("PLEASE ENTER X2");
+                      while (s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[0])+Integer.parseInt(s[2]))>getWidth1()){
+                          JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller width to see this line segment)");
+                          s[2]= JOptionPane.showInputDialog("PLEASE ENTER X2");
+                      }
+                      s[3]= JOptionPane.showInputDialog("PLEASE ENTER Y2");
+                      while (s[3].equals("")||!check(s[3])||Integer.parseInt(s[3])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[3]))>getLenght()){
+                          JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this line segment)");
+                          s[3]= JOptionPane.showInputDialog("PLEASE ENTER Y2");
+                      }
+                      j[0]++;
+                      line_segment l=new line_segment(Double.parseDouble(s[0]),Double.parseDouble(s[1]),Double.parseDouble(s[2]),Double.parseDouble(s[3]),"line_segment"+ j[0]);
+                      l.draw(draw_panel.getGraphics());
+                      nav.addShape(l);
+                      comboBox1.addItem(l.getname());
+                  }catch (NullPointerException E){}
             }
         });
         squareButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String []s = new String[3];
-                s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
-                while (s[0]==null ||!check(s[0])||s[0].equals("")||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
+                try {
                     s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
-                }
-                s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
-                while (s[1]==null||s[1].equals("")||!check(s[1])||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
+                    while (s[0].equals("")||!check(s[0])||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
+                        s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
+                    }
                     s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
-                }
-                s[2]=JOptionPane.showInputDialog("PLEASE ENTER S");
-                while (s[2]==null||s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2]))>getLenght()||(Integer.parseInt(s[0])+Integer.parseInt(s[2]))>getWidth1()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this square)");
+                    while (s[1].equals("")||!check(s[1])||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
+                        s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
+                    }
                     s[2]=JOptionPane.showInputDialog("PLEASE ENTER S");
-                }
-                k[0]++;
-                rectangle r=new rectangle(Double.parseDouble(s[0]),Double.parseDouble(s[1]),Double.parseDouble(s[2]),Double.parseDouble(s[2]),"square"+ k[0]);
-                r.draw(draw_panel.getGraphics());
-                nav.addShape(r);
-                comboBox1.addItem(r.getname());
+                    while (s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2]))>getLenght()||(Integer.parseInt(s[0])+Integer.parseInt(s[2]))>getWidth1()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this square)");
+                        s[2]=JOptionPane.showInputDialog("PLEASE ENTER S");
+                    }
+                    k[0]++;
+                    rectangle r=new rectangle(Double.parseDouble(s[0]),Double.parseDouble(s[1]),Double.parseDouble(s[2]),Double.parseDouble(s[2]),"square"+ k[0]);
+                    r.draw(draw_panel.getGraphics());
+                    nav.addShape(r);
+                    comboBox1.addItem(r.getname());
+                }catch (NullPointerException E){}
+
+
 
             }
         });
@@ -128,33 +133,39 @@ public class paint extends JFrame  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String []s = new String[4];
-                s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
-                while (s[0]==null||s[0].equals("")||!check(s[0])||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
+                try {
                     s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
-                }
-                s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
-                while (s[1]==null||s[1].equals("")||!check(s[1])||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
+                    while (s[0].equals("")||!check(s[0])||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
+                        s[0]= JOptionPane.showInputDialog("PLEASE ENTER X");
+                    }
                     s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
-                }
-               s[2]= JOptionPane.showInputDialog("PLEASE ENTER LENGTH");
-                while (s[2]==null||s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2]))>getLenght()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this rectangle)");
+                    while (s[1].equals("")||!check(s[1])||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
+                        s[1]=JOptionPane.showInputDialog("PLEASE ENTER y");
+                    }
                     s[2]= JOptionPane.showInputDialog("PLEASE ENTER LENGTH");
-                }
-              s[3]=  JOptionPane.showInputDialog("PLEASE ENTER WIDTH");
-                while (s[3]==null||s[3].equals("")||!check(s[3])||Integer.parseInt(s[3])<0||(Integer.parseInt(s[0])+Integer.parseInt(s[3]))>getWidth1()){
-                    JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller width to see this rectangle)");
+                    while (s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2]))>getLenght()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this rectangle)");
+                        s[2]= JOptionPane.showInputDialog("PLEASE ENTER LENGTH");
+                    }
                     s[3]=  JOptionPane.showInputDialog("PLEASE ENTER WIDTH");
-                }
-                n[0]++;
-              rectangle r=new rectangle(Double.parseDouble(s[0]),Double.parseDouble(s[1]),Double.parseDouble(s[2]),Double.parseDouble(s[3]),"rectangle"+ n[0]);
-              r.draw(draw_panel.getGraphics());
-                nav.addShape(r);
-                comboBox1.addItem(r.getname());
+                    while (s[3].equals("")||!check(s[3])||Integer.parseInt(s[3])<0||(Integer.parseInt(s[0])+Integer.parseInt(s[3]))>getWidth1()){
+                        JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller width to see this rectangle)");
+                        s[3]=  JOptionPane.showInputDialog("PLEASE ENTER WIDTH");
+                    }
+                    n[0]++;
+                    rectangle r=new rectangle(Double.parseDouble(s[0]),Double.parseDouble(s[1]),Double.parseDouble(s[2]),Double.parseDouble(s[3]),"rectangle"+ n[0]);
+                    r.draw(draw_panel.getGraphics());
+                    nav.addShape(r);
+                    comboBox1.addItem(r.getname());
 
+                } catch (HeadlessException | NumberFormatException ex) {
+                    throw new RuntimeException(ex);
+                } catch (NullPointerException N){
+                }
             }
+
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
@@ -173,8 +184,6 @@ public class paint extends JFrame  {
                 }catch (NullPointerException E){
                     JOptionPane.showMessageDialog(null,"there is no figures ..please create one in order to make operations");
                 }
-
-
             }
         });
         colorizeButton.addActionListener(new ActionListener() {
@@ -204,7 +213,6 @@ public class paint extends JFrame  {
                                         shape.draw(draw_panel.getGraphics());
                                     }
                                 }
-
                             }
                             );
 
