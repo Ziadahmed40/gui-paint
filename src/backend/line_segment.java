@@ -1,81 +1,43 @@
 package backend;
-
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-
-public class line_segment implements shape {
-    private  Point position;
-    private String name="";
-    private double x2;
-    private double y2;
-    private  Point p;
-    private  Color colorcanvis;
-    private  Color colorshape;
-    private  String help="";
+public class line_segment extends AbstractShapeClass {
+    private Point point2;
     public line_segment(double x1, double y1, double x2, double y2,String name){
          setPosition(new Point((int) x1, (int) y1));
-      this.x2=x2;
-      this.y2=y2;
-        this.name=this.name.concat(name);
+         point2=new Point((int)x2,(int) y2);
+        setName(name);
         setColor(Color.blue);
-    }
-    @Override
-    public String getname() {
-        return this.name;
-    }
-
-    @Override
-    public double getindex1() {
-        return this.y2;
-    }
-
-    @Override
-    public double getindex2() {
-        return this.x2;
-    }
-
-
-    @Override
-    public void setPosition(Point position) {
-     this.position=position;
-    }
-    @Override
-    public Point getPosition() {
-        return this.position;
-    }
-    @Override
-    public void setColor(Color color) {
-        this.colorcanvis=color;
-    }
-    @Override
-    public Color getColor() {
-        return this.colorcanvis;
-    }
-    @Override
-    public void setFillColor(Color color) {
-        this.colorshape=color;
-    }
-    @Override
-    public Color getFillColor() {
-        return this.colorshape;
     }
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
-        Line2D.Double l=new Line2D.Double(getPosition().x,getPosition().y,this.x2,this.y2);
-        if(this.help.equals("")||this.help.equals("border")){
+        Line2D.Double l=new Line2D.Double(getPosition().x,getPosition().y,point2.x,point2.y);
+        if(super.getHelp().equals("")||super.getHelp().equals("border")){
             g.setColor(getColor());
             g.draw(l);
         }
-        if (this.help.equals("innerarea")){
+        if (super.getHelp().equals("innerarea")){
             g.setColor(getFillColor());
             g.draw(l);
         }
     }
     @Override
-    public void sethelp(String S) {
-        this.help=S;
+    public boolean Contains(Point point) {
+        Point startPoint = getPosition();
+        Point endPoint = new Point(point2.x, point2.y);
+        double lineLength = startPoint.distance( endPoint);
+        double lengthFromPoint = startPoint.distance(point) + endPoint.distance(point);
+        return Math.abs(lengthFromPoint - lineLength) <= 2;
     }
-
+    @Override
+    public void moveTo(Point point){
+        Point oldPoint = getPosition();
+        int x = point.x - oldPoint.x;
+        int y = point.y - oldPoint.y;
+        point2.x=point2.x+x;
+        point2.y=point2.y+y;
+        setPosition(point);
+    };
 }

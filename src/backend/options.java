@@ -12,7 +12,6 @@ public class options {
     private  JFrame p;
     public String s="";
     public CompletableFuture<Boolean> vis;
-
     public options(){
        p =new JFrame("options");
         p.setContentPane(this.jpanel1);
@@ -35,7 +34,6 @@ public class options {
                 vis.complete(false);
             }
         });
-
     }
     public CompletableFuture<Boolean> visible(){
           return vis;

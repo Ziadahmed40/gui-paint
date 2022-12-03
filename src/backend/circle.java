@@ -1,77 +1,27 @@
 package backend;
-
 import javax.xml.namespace.QName;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-public class circle implements shape {
-    private String name="";
-     private  Point postion;
+public class circle extends AbstractShapeClass{
+
     private double radius;
-    private  Color colorcanvis;
-    private  Color colorshape;
-    private  String help="";
-    private boolean x=false;
     public circle(double x, double y, double radius,String name){
         setPosition(new Point((int) x, (int) y));
         this.radius=radius;
         setColor(Color.blue);
-        this.name=this.name.concat(name);
-    }
-    @Override
-    public String getname() {
-        return this.name;
-    }
-
-    @Override
-    public double getindex1() {
-        return this.radius*2;
-    }
-
-    @Override
-    public double getindex2() {
-        return this.radius*2;
-    }
-
-    @Override
-    public void sethelp(String S) {
-        this.help=S;
-    }
-
-    @Override
-    public void setPosition(Point position) {
-         this.postion=position;
-    }
-    @Override
-    public Point getPosition() {
-        return this.postion;
-    }
-    @Override
-    public void setColor(Color color) {
-       this.colorcanvis=color;
-    }
-    @Override
-    public Color getColor() {
-        return this.colorcanvis;
-    }
-    @Override
-    public void setFillColor(Color color) {
-           this.colorshape=color;
-    }
-    @Override
-    public Color getFillColor() {
-        return this.colorshape;
+        setName(name);
     }
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
         Ellipse2D.Double c=new Ellipse2D.Double(getPosition().x,getPosition().y,this.radius*2,this.radius*2);
-        if (this.help.equals("")){
+        if (super.getHelp().equals("")){
             g.setColor(getColor());
             g.draw(c);
         }
-        if(this.help.equals("border")){
+        if(super.getHelp().equals("border")){
             if(x){
                 g.setColor(getFillColor());
                 g.fill(c);
@@ -79,7 +29,7 @@ public class circle implements shape {
             g.setColor(getColor());
             g.draw(c);
         }
-        if (this.help.equals("innerarea")){
+        if (super.getHelp().equals("innerarea")){
             g.setColor(getFillColor());
             g.fill(c);
             g.setColor(getColor());
@@ -87,7 +37,18 @@ public class circle implements shape {
             x=true;
         }
     }
+    @Override
+    public boolean Contains(Point point) {
+        Point point1=getPosition();
+        Point center=new Point((int) (point1.x+radius), (int) (point1.y+radius));
+        if(point.distance(center)<radius*2)
+          return true;
+        return false;
+    }
 
+    @Override
+    public void moveTo(Point point){
+        setPosition(point);
 
-
+    };
 }

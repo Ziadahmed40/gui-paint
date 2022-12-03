@@ -41,7 +41,6 @@ public class navigator implements DrawingEngine{
     @Override
     public void refresh(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
-        g.clearRect(returnshape(this.key).getPosition().x,returnshape(this.key).getPosition().y, (int) returnshape(this.key).getindex1(), (int) returnshape(this.key).getindex2());
-
+       g.clearRect(0,0,1900,1900);
     }
 }

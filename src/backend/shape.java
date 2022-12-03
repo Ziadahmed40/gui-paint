@@ -1,6 +1,8 @@
 package backend;
 
-public interface shape {
+import java.util.Map;
+
+public interface shape extends Movebale {
         /* set position */
         public void setPosition(java.awt.Point position);
         public java.awt.Point getPosition();
@@ -12,8 +14,6 @@ public interface shape {
         /* redraw the backend.shape on the canvas */
         public void draw(java.awt.Graphics canvas);
          public String getname();
-         public double getindex1();
-        public double getindex2();
         public void sethelp(String S);
 
 
