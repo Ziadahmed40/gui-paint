@@ -57,11 +57,11 @@ public abstract class AbstractShapeClass implements Movebale,shape{
 
     @Override
     public void setDraggingPoint(Point point) {
-
+          this.DraggingPoint=point;
     }
     @Override
     public Point GetDraggingPoint(){
-        return postion;
+        return this.DraggingPoint;
     }
     public abstract boolean Contains(Point point);
 

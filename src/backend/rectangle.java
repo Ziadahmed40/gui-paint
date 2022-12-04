@@ -42,6 +42,8 @@ public class rectangle  extends AbstractShapeClass  {
             x=true;
         }
     }
+
+
     @Override
     public boolean Contains(Point point) {
         Rectangle2D.Double r= new Rectangle2D.Double(getPosition().x,getPosition().y,this.length,this.width);
@@ -49,7 +51,12 @@ public class rectangle  extends AbstractShapeClass  {
     }
     @Override
     public void moveTo(Point point){
-        setPosition(point);
+        try {
+            Point drag=GetDraggingPoint();
+            point.x+=(getPosition().x-drag.x);
+            point.y+=(getPosition().y-drag.y);
+            setPosition(point);
+        }catch (NullPointerException N){}
     };
 
 }

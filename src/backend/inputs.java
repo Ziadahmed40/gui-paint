@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class inputs  {
     private  JFrame p;
@@ -26,6 +27,10 @@ public class inputs  {
     public CompletableFuture<Boolean> vis;
     public  ArrayList <String> in;
     public double x;
+    public boolean y=false;
+    public boolean z=false;
+    public   AtomicReference<Color>  colorfill;
+    public   AtomicReference<Color>  colorborder;
 
 
     public inputs(double indicator){
@@ -51,18 +56,19 @@ public class inputs  {
             inn=generate(4);
         label(x);
         ArrayList<JTextField> finalInn = inn;
+        ArrayList<JTextField> finalInn1 = new ArrayList<>();
+        finalInn1.addAll(inn);
+        finalInn1.add(textField2);
+        finalInn1.add(textField1);
         generateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Boolean b=validate(finalInn);
+                boolean b=validate(finalInn1);
                 if(b){
                     in.add(textField2.getText());
                     in.add(textField1.getText());
                     for (JTextField f: finalInn) {
                         in.add(f.getText());
-                    }
-                    for (String S: in) {
-                        System.out.println(S);
                     }
                     p.setVisible(false);
                     vis.complete(false);
@@ -96,6 +102,29 @@ public class inputs  {
             }
             @Override
             public void windowDeactivated(WindowEvent e) {
+            }
+        });
+        setBorderColorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AtomicReference<Color> color= new AtomicReference<>(Color.blue);
+                color.set(JColorChooser.showDialog(null, "select a color", color.get()));
+                if(color.get() != null){
+                  colorborder= color;
+                  y=true;
+                }
+            }
+        });
+        setFillColorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AtomicReference<Color> color= new AtomicReference<>(Color.blue);
+                color.set(JColorChooser.showDialog(null, "select a color", color.get()));
+                if(color.get() != null){
+                    colorfill= color;
+                    z=true;
+                }
+
             }
         });
     }
@@ -171,16 +200,19 @@ public class inputs  {
         }
     }
     public boolean validate(ArrayList<JTextField> x){
+        boolean flag=true;
         for (JTextField i:x) {
             String s=i.getText();
            if(!check(s)){
-               return false;
+              flag=false;
+              break;
            }
            if(s.equals("")||Integer.parseInt(s)<0){
-               return false;
+               flag=false;
+               break;
            }
         }
-       return true;
+       return flag;
     }
 //                    while (s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[2])*2)>getLenght()||(Integer.parseInt(s[0])+Integer.parseInt(s[2])*2)>getWidth1())
 //    public static void main(String[] args) {

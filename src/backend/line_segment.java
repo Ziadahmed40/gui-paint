@@ -33,11 +33,16 @@ public class line_segment extends AbstractShapeClass {
     }
     @Override
     public void moveTo(Point point){
-        Point oldPoint = getPosition();
-        int x = point.x - oldPoint.x;
-        int y = point.y - oldPoint.y;
-        point2.x=point2.x+x;
-        point2.y=point2.y+y;
-        setPosition(point);
+        try {
+            Point oldPoint = getPosition();
+            Point drag=GetDraggingPoint();
+            point.x+=(getPosition().x-drag.x);
+            point.y+=(getPosition().y-drag.y);
+            int x = point.x - oldPoint.x;
+            int y = point.y - oldPoint.y;
+            point2.x=point2.x+x;
+            point2.y=point2.y+y;
+            setPosition(point);
+        }catch (NullPointerException n){}
     };
 }

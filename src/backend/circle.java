@@ -12,6 +12,7 @@ public class circle extends AbstractShapeClass{
         this.radius=radius;
         setColor(Color.blue);
         setName(name);
+
     }
     @Override
     public void draw(Graphics canvas) {
@@ -48,7 +49,11 @@ public class circle extends AbstractShapeClass{
 
     @Override
     public void moveTo(Point point){
-        setPosition(point);
-
+        try {
+            Point drag=GetDraggingPoint();
+            point.x+=(getPosition().x-drag.x);
+            point.y+=(getPosition().y-drag.y);
+            setPosition(point);
+        }catch (NullPointerException nullPointerException){}
     };
 }
