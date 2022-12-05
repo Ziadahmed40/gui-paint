@@ -42,7 +42,7 @@ public class circle extends AbstractShapeClass{
     public boolean Contains(Point point) {
         Point point1=getPosition();
         Point center=new Point((int) (point1.x+radius), (int) (point1.y+radius));
-        if(point.distance(center)<radius*2)
+        if(point.distance(center)<radius)
           return true;
         return false;
     }

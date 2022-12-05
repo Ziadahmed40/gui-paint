@@ -60,7 +60,7 @@ public class paint extends JFrame  {
                         c.draw(draw_panel.getGraphics());
                         nav.addShape(c);
                         comboBox1.addItem(c.getname());
-                        redraw(nav);
+                            redraw(nav);
                     }
 
                 });
@@ -192,6 +192,22 @@ public class paint extends JFrame  {
                     }
 
                 });
+            }
+        });
+        p.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                super.componentShown(e);
+                redraw(nav);
+                int delay = 100; //milliseconds
+                ActionListener taskPerformer = new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        redraw(nav);
+                    }
+                };
+                new Timer(delay, taskPerformer).start();
+                redraw(nav);
+                redraw(nav);
             }
         });
         deleteButton.addActionListener(new ActionListener() {
