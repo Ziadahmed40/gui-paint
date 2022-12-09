@@ -29,6 +29,13 @@ public class rectangle  extends AbstractShapeClass  {
         get.add((int) this.width);
         return  get;
     }
+
+    @Override
+    public void seter(ArrayList<Integer> x) {
+        this.length=x.get(0);
+        this.width=x.get(1);
+    }
+
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
@@ -55,6 +62,44 @@ public class rectangle  extends AbstractShapeClass  {
         }
     }
 
+    @Override
+    public Point resize(Point corner, Point p) {
+        Point[] points = points();
+
+        int x = 0;
+        int y = 0;
+
+        int index = 0;
+
+        if(corner.equals(points[0])) {
+            x = corner.x - p.x;
+            y = corner.y - p.y;
+        }
+
+        if(corner.equals(points[1])) {
+            x = corner.x - p.x;
+            y = p.y - corner.y;
+            index = 1;
+        }
+
+        if(corner.equals(points[2])) {
+            x = p.x - corner.x;
+            y = corner.y - p.y;
+            index = 2;
+        }
+
+        if(corner.equals(points[3])) {
+            x = p.x - corner.x;
+            y = p.y - corner.y;
+            index = 3;
+        }
+
+        length= Math.abs(length+ x);
+         width = Math.abs(width + y);
+
+        return points()[index];
+    }
+
 
     @Override
     public boolean Contains(Point point) {
@@ -70,5 +115,12 @@ public class rectangle  extends AbstractShapeClass  {
             setPosition(point);
         }catch (NullPointerException N){}
     };
-
+    public Point[] points(){
+        ArrayList<Point> p=new ArrayList<>();
+        p.add(new Point(this.getPosition().x-5, this.getPosition().y-5));
+        p.add(new Point(this.getPosition().x-5, (int) (this.getPosition().y+width)-5));
+        p.add(new Point((int) (this.getPosition().x+length)-5, (int) (this.getPosition().y+width)-5));
+        p.add(new Point((int) (this.getPosition().x+length)-5, this.getPosition().y-5));
+        return p.toArray(new Point[0]);
+    }
 }

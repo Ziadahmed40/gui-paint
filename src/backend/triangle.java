@@ -27,6 +27,13 @@ public class triangle extends AbstractShapeClass  {
         get.add((int) this.point3.getY());
         return  get;
     }
+
+    @Override
+    public void seter(ArrayList<Integer> x) {
+        this.point2=new Point(x.get(0), x.get(1));
+       this.point3=new Point(x.get(2), x.get(3));
+    }
+
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
@@ -50,7 +57,34 @@ public class triangle extends AbstractShapeClass  {
             g.draw(tri);
             x=true;
         }
+//        Point[] point = points();
+//        for (Point point1 : point) {
+//            Rectangle2D.Double r= new Rectangle2D.Double(point1.x,point1.y,10,10);
+//            g.setColor(Color.black);
+//            g.fill(r);
+//            g.draw(r);
+//        }
     }
+
+    @Override
+    public Point resize(Point CONRNER, Point p) {
+        Point[] points=points();
+        if (points[0].equals(CONRNER)) {
+            setPosition(p);
+            return points()[0];
+        }
+        if (points[1].equals(CONRNER)) {
+            point2=p;
+            return points()[1];
+
+        }
+        if (points[2].equals(CONRNER)) {
+            point3=p;
+            return points()[2];
+        }
+        return null;
+    }
+
     private double sign(Point p1, Point p2, Point p3) {
         return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
     }
@@ -66,6 +100,16 @@ public class triangle extends AbstractShapeClass  {
         hasPositive = (d1 > 0) ||(d2 > 0) || (d3 > 0);
         return !(hasNegative && hasPositive);
     }
+
+    @Override
+    public Point[] points() {
+        ArrayList<Point> p=new ArrayList<>();
+        p.add(new Point(this.getPosition().x-10,this.getPosition().y-5));
+        p.add(new Point(this.point2.x,this.point2.y));
+        p.add(new Point(this.point3.x-5,this.point3.y-10));
+        return p.toArray(new Point[0]);
+    }
+
     @Override
     public void moveTo(Point point){
         try {

@@ -23,6 +23,11 @@ public class line_segment extends AbstractShapeClass {
         return  get;
     }
     @Override
+    public void seter(ArrayList<Integer> x) {
+        this.point2=new Point(x.get(0), x.get(1));
+    }
+
+    @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
         Line2D.Double l=new Line2D.Double(getPosition().x,getPosition().y,point2.x,point2.y);
@@ -34,7 +39,30 @@ public class line_segment extends AbstractShapeClass {
             g.setColor(getFillColor());
             g.draw(l);
         }
+//        Point[] point = points();
+//        for (Point point1 : point) {
+//            Rectangle2D.Double r= new Rectangle2D.Double(point1.x,point1.y,10,10);
+//            g.setColor(Color.black);
+//            g.fill(r);
+//            g.draw(r);
+//        }
     }
+
+    @Override
+    public Point resize(Point cornerPoint, Point p) {
+        Point[] points=points();
+        if (points[0].equals(cornerPoint)) {
+            setPosition(p);
+            return points()[0];
+        }
+        if (points[1].equals(cornerPoint)) {
+            point2=p;
+            return points()[1];
+        }
+        return null;
+    }
+
+
     @Override
     public boolean Contains(Point point) {
         Point startPoint = getPosition();
@@ -43,6 +71,15 @@ public class line_segment extends AbstractShapeClass {
         double lengthFromPoint = startPoint.distance(point) + endPoint.distance(point);
         return Math.abs(lengthFromPoint - lineLength) <= 2;
     }
+
+    @Override
+    public Point[] points() {
+        ArrayList<Point> p=new ArrayList<>();
+        p.add(this.getPosition());
+        p.add(new Point(this.point2.x-10,this.point2.y-10));
+        return p.toArray(new Point[0]);
+    }
+
     @Override
     public void moveTo(Point point){
         try {
