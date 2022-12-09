@@ -40,6 +40,7 @@ public class paint extends JFrame  {
     private int width;
     private int lenght;
     Point resize ;
+    boolean x22 =true;
     paint(){
        p=new JFrame("mini_paint");
         p.setVisible(true);
@@ -349,6 +350,9 @@ public class paint extends JFrame  {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     resize =null;
+                    System.out.println("SEBT ELMOUSE");
+                    nav.refresh(draw_panel.getGraphics());
+                    redraw(nav);
                 }
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -360,35 +364,48 @@ public class paint extends JFrame  {
             draw_panel.addMouseMotionListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseDragged(MouseEvent e) {
+                    if(resize ==null){
+                        nav.refresh(draw_panel.getGraphics());
+                        for (shape shape: nav.getshapes()) {
+                            if (shape.getname().equals((comboBox1.getSelectedItem().toString()))&&shape.Contains(e.getPoint())){
+                                shape.moveTo(e.getPoint());
+                            }
+                            shape.setDraggingPoint(e.getPoint());
+                            shape.draw(draw_panel.getGraphics());
+                        }
+                    }
                         backend.shape[] f = nav.getshapes();
                         ArrayList<AbstractShapeClass> f1 = new ArrayList<>();
                         for (shape sh : f) {
                             f1.add((AbstractShapeClass) sh);
                         }
                         for (AbstractShapeClass shape : f1) {
-                            for (rectangle r : rec) {
-                                if (shape.getname().equals((comboBox1.getSelectedItem().toString())) && r.Contains(e.getPoint())) {
-                                    resize =r.getPosition();
-                                   shape.resize(resize,e.getPoint());
+                            for (Point point : shape.points()) {
+                                if (shape.getname().equals((comboBox1.getSelectedItem().toString())) && point.distance(e.getPoint())<=10) {
+                                    x22=false;
+                                    resize =point;
+                                    Point selectedPoint=shape.resize(resize,e.getPoint());
+                                    if (selectedPoint!=null)
+                                        resize=selectedPoint;
                                    nav.refresh(draw_panel.getGraphics());
-                                    shape.draw(draw_panel.getGraphics());
+                                    redraw(nav);
+                                    Point[] point11 = shape.points();
+                                    for (Point point1 : point11) {
+                                        rectangle r1=new rectangle(point1.x,point1.y,10,10,"");
+                                        r1.setColor(Color.black);
+                                        r1.setFillColor(Color.black);
+                                        r1.sethelp("innerarea");
+                                        r1.draw(draw_panel.getGraphics());
+                                    }
+                                    redraw(nav);
                                 }
                             }
                         }
-                   nav.refresh(draw_panel.getGraphics());
-                   for (shape shape: nav.getshapes()) {
-                       if (resize ==null&&shape.getname().equals((comboBox1.getSelectedItem().toString()))&&shape.Contains(e.getPoint())){
-                           shape.moveTo(e.getPoint());
-                       }
-                       shape.setDraggingPoint(e.getPoint());
-                        shape.draw(draw_panel.getGraphics());
-                  }
                 }
                 @Override
                 public void mouseMoved(MouseEvent e) {
                 }
             });
-
             save.setAccelerator(KeyStroke.getKeyStroke(
                     java.awt.event.KeyEvent.VK_S,
                     InputEvent.CTRL_MASK));
@@ -613,9 +630,7 @@ public class paint extends JFrame  {
 
                             }
                         }catch ( Exception exception){
-
                         }
-
                     }}
             });
         copyButton.addActionListener(new ActionListener() {

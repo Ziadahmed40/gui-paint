@@ -67,7 +67,33 @@ public class circle extends AbstractShapeClass{
 
     @Override
     public Point resize(Point CONRNER, Point p) {
+
+        Point[] points=points();
+        if (points[0].equals(CONRNER)) {
+            horizontalradius+=(getPosition().x-p.x);
+            verticalradius+=(getPosition().y-p.y);
+            setPosition(p);
+            return points()[0];
+        }
+        if (points[1].equals(CONRNER)) {
+            horizontalradius+=(getPosition().x-p.x);
+            verticalradius=(getPosition().y-p.y);
+            return points()[1];
+
+        }
+        if (points[2].equals(CONRNER)) {
+            horizontalradius+=(CONRNER.x-p.x);
+            verticalradius+=(getPosition().y-p.y);
+            return points()[2];
+
+        }
+        if (points[3].equals(CONRNER)) {
+            this.horizontalradius=Math.abs(horizontalradius+(p.x-points[3].x));
+            this.verticalradius=Math.abs(verticalradius+(p.y-points[3].y));
+            return points()[3];
+        }
         return null;
+
     }
 
     @Override
