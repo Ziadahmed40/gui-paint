@@ -1,10 +1,22 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.spi.FileTypeDetector;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
-
 import  backend.*;
+import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class paint extends JFrame  {
     private JPanel panel1;
     private JButton circleButton;
@@ -18,6 +30,10 @@ public class paint extends JFrame  {
     private JPanel fig_choice_panel;
     private JPanel option_panel;
     private JButton triangle;
+    private JButton copyButton;
+    private JMenu file;
+    private JMenuItem save;
+    private JMenuItem load;
     private  JFrame p;
     private int width;
     private int lenght;
@@ -37,7 +53,7 @@ public class paint extends JFrame  {
         final int[] k = {0};
         final int[] n = {0};
         final int[] t = {0};
-        navigator nav=new navigator();
+         navigator nav = new navigator();
         circleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,7 +64,7 @@ public class paint extends JFrame  {
                     ArrayList<String> in=ii.in;
                     if(!in.get(0).equals("don't do a thing")){
                         i[0]++;
-                        circle c=new circle(Double.parseDouble(in.get(0)),Double.parseDouble(in.get(1)),Double.parseDouble(in.get(2)),"circle"+ i[0]);
+                        circle c=new circle(Double.parseDouble(in.get(0)),Double.parseDouble(in.get(1)),Double.parseDouble(in.get(2)),Double.parseDouble(in.get(3)),"circle"+ i[0]);
                         if(ii.y){
                             c.setColor( ii.colorborder.get());
                             System.out.println("HH");
@@ -69,28 +85,6 @@ public class paint extends JFrame  {
         lineSegmentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //String []s = new String[4];
-//                  try {
-//                      s[0]= JOptionPane.showInputDialog("PLEASE ENTER X1");
-//                      while (s[0].equals("")||!check(s[0])||Integer.parseInt(s[0])<0||Integer.parseInt(s[0])>getWidth1()){
-//                          JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getWidth1());
-//                          s[0]= JOptionPane.showInputDialog("PLEASE ENTER X1");
-//                      }
-//                      s[1]=JOptionPane.showInputDialog("PLEASE ENTER y1");
-//                      while (s[1].equals("")||!check(s[1])||Integer.parseInt(s[1])<0||Integer.parseInt(s[1])>getLenght()){
-//                          JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller than "+getLenght());
-//                          s[1]=JOptionPane.showInputDialog("PLEASE ENTER y1");
-//                      }
-//                      s[2]= JOptionPane.showInputDialog("PLEASE ENTER X2");
-//                      while (s[2].equals("")||!check(s[2])||Integer.parseInt(s[2])<0||(Integer.parseInt(s[0])+Integer.parseInt(s[2]))>getWidth1()){
-//                          JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller width to see this line segment)");
-//                          s[2]= JOptionPane.showInputDialog("PLEASE ENTER X2");
-//                      }
-//                      s[3]= JOptionPane.showInputDialog("PLEASE ENTER Y2");
-//                      while (s[3].equals("")||!check(s[3])||Integer.parseInt(s[3])<0||(Integer.parseInt(s[1])+Integer.parseInt(s[3]))>getLenght()){
-//                          JOptionPane.showMessageDialog(null,"please enter a valid input (postive , smaller length to see this line segment)");
-//                          s[3]= JOptionPane.showInputDialog("PLEASE ENTER Y2");
-//                      }
                       p.setVisible(false);
                       inputs ii=new inputs(2.1);
                       ii.visible().whenComplete((Boolean vis ,Object X)->{
@@ -273,6 +267,7 @@ public class paint extends JFrame  {
                             }});
                     }
                 }});
+
             p.addWindowListener(new WindowListener() {
                 @Override
                 public void windowOpened(WindowEvent e) {
@@ -304,7 +299,7 @@ public class paint extends JFrame  {
                 }
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    for (shape shape:nav.getshapes()) {
+                    for (shape shape: nav.getshapes()) {
                         if( shape.Contains(e.getPoint())){
                             shape.setDraggingPoint(e.getPoint());
                             comboBox1.setSelectedItem(shape.getname());
@@ -325,7 +320,7 @@ public class paint extends JFrame  {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                    nav.refresh(draw_panel.getGraphics());
-                   for (shape shape:nav.getshapes()) {
+                   for (shape shape: nav.getshapes()) {
                        if (shape.getname().equals((comboBox1.getSelectedItem().toString()))&&shape.Contains(e.getPoint())){
                            shape.moveTo(e.getPoint());
                        }
@@ -337,12 +332,374 @@ public class paint extends JFrame  {
                 public void mouseMoved(MouseEvent e) {
                 }
             });
+            save.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    backend.shape[] f= nav.getshapes();
+                    ArrayList<AbstractShapeClass> f1=new ArrayList<>();
+                    for (shape sh:f) {
+                      f1.add((AbstractShapeClass) sh );
+                    }
+                    JsonArray array=new JsonArray();
+                    for (AbstractShapeClass  x:f1) {
+                        JsonObject o=new JsonObject();
+                        java.util.List<Constructor<?>> ll;
+                        ll= Arrays.stream(x.getClass().getConstructors()).toList();
+                        Constructor<?> pl=ll.get(0);
+                        o.put("name",x.getname());
+                        String oo=x.getname();
+                        o.put("x1",x.getPosition().x);
+                        o.put("y1",x.getPosition().y);
+                        if(oo.charAt(0)=='c'){
+                           o.put("horizontalradius",x.geter().get(0)) ;
+                            o.put("verticalradius",x.geter().get(1)) ;
+                        }
+                        if(oo.charAt(0)=='s'){
+                            o.put("side",x.geter().get(0));
+                        }
+                        if(oo.charAt(0)=='t'){
+                            o.put("x2",x.geter().get(0)) ;
+                            o.put("y2",x.geter().get(1)) ;
+                            o.put("x3",x.geter().get(2)) ;
+                            o.put("y3",x.geter().get(3)) ;
+                        }
+                        if(oo.charAt(0)=='r'){
+                            o.put("lenght",x.geter().get(0)) ;
+                            o.put("width",x.geter().get(1)) ;
+                        }
+                        if(oo.charAt(0)=='l'){
+                            o.put("x2",x.geter().get(0));
+                            o.put("y2",x.geter().get(1));
+                        }
+                        o.put("constructor",pl.toString());
+                        o.put("help",x.getHelp());
+                        var r=x.getColor().getRed();
+                        var g=x.getColor().getGreen();
+                        var b=x.getColor().getBlue();
+                        String hex = String.format("#%02x%02x%02x", r, g, b);
+                        o.put("boardercolor",hex);
+                        if(x.getFillColor()!=null){
+                        r=x.getFillColor().getRed();
+                         g=x.getFillColor().getGreen();
+                         b=x.getFillColor().getBlue();
+                        hex = String.format("#%02x%02x%02x", r, g, b);
+                        o.put("fillcolor",hex);
+                        }
+                        JsonObject set=new JsonObject();
+                        set.put("shape",o);
+                        array.add(set);
+                    }
+                    System.out.println(array);
+                    JFileChooser fileChooser=new JFileChooser(new File("C:\\Users\\zeyad\\Desktop\\computer communication\\compu 2nd year\\first term\\programming 2\\lap\\paint"));
+                    fileChooser.setDialogTitle("save drawings");
+                    fileChooser.setFileFilter(new FileFilter() {
+                        @Override
+                        public boolean accept(File f) {
+                            if (f.isDirectory()) {
+                                return true;
+                            } else {
+                                return f.getName().toLowerCase().endsWith(".json");
+                            }
+                        }
+                        @Override
+                        public String getDescription() {
+                            return "json file (*.json)";
+                        }
+                    });
+                  int result=  fileChooser.showSaveDialog(null);
+                  if(result==JFileChooser.APPROVE_OPTION){
+                      File file1=fileChooser.getSelectedFile();
+                        try{
+                            FileWriter fs=new FileWriter(file1.getPath());
+                            fs.write(array.toJson());
+                            fs.flush();
+                            fs.close();
+                        }catch (IOException I){
+                        }
+                  }
+                }
+            });
+            load.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JFileChooser fileChooser=new JFileChooser(new File("C:\\Users\\zeyad\\Desktop\\computer communication\\compu 2nd year\\first term\\programming 2\\lap\\paint"));
+                     fileChooser.setDialogTitle ("Open a File");
+                    fileChooser.setFileFilter(new FileFilter() {
+                        @Override
+                        public boolean accept(File f) {
+                            if (f.isDirectory()) {
+                                return true;
+                            } else {
+                                return f.getName().toLowerCase().endsWith(".json");
+                            }
+                        }
+                        @Override
+                        public String getDescription() {
+                            return "json file (*.json)";
+                        }
+                    });
+                    int result = fileChooser.showOpenDialog(null) ;
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        File f = fileChooser.getSelectedFile();
+                        try (Scanner reader = new Scanner(f))
+                        {
+                            String S="";
+                            while (reader.hasNextLine()){
+                                S=S.concat(reader.nextLine());
+                            }
+                            JsonArray shapeList = Jsoner.deserialize(S,new JsonArray());
+                            System.out.println(shapeList);
+                             nav.refresh(draw_panel.getGraphics());
+                            for ( shape shape: nav.getshapes()) {
+                                nav.setKey(shape.getname());
+                                nav.removeShape(shape);
+                                nav.resetkey();
+                            }
+                            comboBox1.removeAllItems();
+                           // shapeList.forEach( shape -> parseshapeObject((JsonObject)shape) );
+                            for ( Object shape :shapeList ) {
+                                t[0]=0;
+                                i[0]=0;
+                                 j[0]=0;
+                                 k[0]=0;
+                                 n[0]=0;
+                               ArrayList<String>s= parseshapeObject((JsonObject) shape);
+                               System.out.println(s);
+                                if(s.get(0).charAt(0)=='c'){
+                                    i[0]++;
+                                    circle c =new circle(Double.parseDouble(s.get(4)),Double.parseDouble(s.get(5)),Double.parseDouble(s.get(6)),Double.parseDouble(s.get(7)),s.get(0));
+                                   if(s.get(3) != null){
+                                       c.sethelp(s.get(3));
+                                   }
+                                   try {
+                                       c.setFillColor(Color.decode(s.get(1)));}
+                                   catch (NullPointerException E){
+                                   }
+                                      try { c.setColor(Color.decode(s.get(2)));
+                                   }catch (NullPointerException N){}
+                                    c.draw(draw_panel.getGraphics());
+                                    nav.addShape(c);
+                                    System.out.println(c.getname());
+                                    comboBox1.addItem(c.getname());
+                                }
+                                if(s.get(0).charAt(0)=='s'){
+                                    k[0]++;
+                                    rectangle rec =new rectangle(Double.parseDouble(s.get(4)),Double.parseDouble(s.get(5)),Double.parseDouble(s.get(6)),Double.parseDouble(s.get(6)),s.get(0));
+                                    if(s.get(3) != null){
+                                        rec.sethelp(s.get(3));
+                                    }
+                                    try {
+                                        rec.setFillColor(Color.decode(s.get(1)));
+                                    }catch (NullPointerException E){
+                                    }try {rec.setColor(Color.decode(s.get(2)));
+                                    }catch (NullPointerException E){
+                                    }
 
+                                    rec.draw(draw_panel.getGraphics());
+                                    nav.addShape(rec);
+                                    comboBox1.addItem(s.get(0));
+                                }
+                                if(s.get(0).charAt(0)=='t'){
+                                    t[0]++;
+                                    triangle tri=new triangle(Double.parseDouble(s.get(4)),Double.parseDouble(s.get(5)),Double.parseDouble(s.get(6)),Double.parseDouble(s.get(7)),Double.parseDouble(s.get(8)),Double.parseDouble(s.get(9)),s.get(0));
+                                    if(s.get(3) != null){
+                                    tri.sethelp(s.get(3));
+                                    }
+                                    try{
+                                        tri.setFillColor(Color.decode(s.get(1)));
+                                    }catch (NullPointerException E){
+                                    }
+                                    try{tri.setColor(Color.decode(s.get(2)));
+                                    }catch (NullPointerException E){
+                                    }
+
+                                    tri.draw(draw_panel.getGraphics());
+                                    nav.addShape(tri);
+                                    comboBox1.addItem(s.get(0));
+                                }
+                                if(s.get(0).charAt(0)=='r') {
+                                    n[0]++;
+                                    rectangle rec = new rectangle(Double.parseDouble(s.get(4)), Double.parseDouble(s.get(5)), Double.parseDouble(s.get(6)), Double.parseDouble(s.get(7)), s.get(0));
+                                    if (s.get(3) != null ) {
+                                        rec.sethelp(s.get(3));
+                                    }
+                                    try {
+                                        rec.setFillColor(Color.decode(s.get(1)));
+                                    } catch (NullPointerException E) {
+                                    }
+                                     try{  rec.setColor(Color.decode(s.get(2)));
+                                    }catch (NullPointerException E){
+                                    }
+                                    rec.draw(draw_panel.getGraphics());
+                                    nav.addShape(rec);
+                                    comboBox1.addItem(s.get(0));
+                                }
+                                if(s.get(0).charAt(0)=='l'){
+                                    j[0]++;
+                                    line_segment l =new line_segment(Double.parseDouble(s.get(4)),Double.parseDouble(s.get(5)),Double.parseDouble(s.get(6)),Double.parseDouble(s.get(7)),s.get(0));
+                                    if(s.get(3) != null){
+                                    l.sethelp(s.get(3));
+                                    }
+                                    try {
+                                        l.setFillColor(Color.decode(s.get(1)));
+                                    }catch (NullPointerException E){
+                                    }try{  l.setColor(Color.decode(s.get(2)));
+                                    }catch (NullPointerException E){
+                                    }
+                                    l.draw(draw_panel.getGraphics());
+                                    nav.addShape(l);
+                                    comboBox1.addItem(s.get(0));
+                                }
+
+                            }
+                        }catch ( Exception exception){
+
+                        }
+
+                    }}
+            });
+        copyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String s= comboBox1.getSelectedItem().toString();
+                            {
+                                    nav.setKey(s);
+                                Class<? extends backend.shape> a = nav.returnshape(s).getClass();
+                                    nav.resetkey();
+                                java.util.List<Constructor<?>> x;
+                              x= Arrays.stream(a.getConstructors()).toList();
+                             Constructor<?> p= x.get(0);
+                             var returnshape =(AbstractShapeClass) nav.returnshape(s);
+                              String oo=returnshape.getname();
+                              AbstractShapeClass c = null;
+                              if(oo.charAt(0)=='c'){
+                                  i[0]++;
+                                  oo="circle"+i[0];
+                                   c= (AbstractShapeClass)p.newInstance((int)returnshape.getPosition().getX(),(int)returnshape.getPosition().getY(),returnshape.geter().get(0),returnshape.geter().get(1),oo);
+                              }
+                              if(oo.charAt(0)=='s'){
+                                  k[0]++;
+                                  oo="square"+k[0];
+                                  c= (AbstractShapeClass)p.newInstance((int)returnshape.getPosition().getX(),(int)returnshape.getPosition().getY(),returnshape.geter().get(0),returnshape.geter().get(1),oo);
+                                }
+                                if(oo.charAt(0)=='t'){
+                                    t[0]++;
+                                    oo="triangle"+t[0];
+                                    c= (AbstractShapeClass)p.newInstance((int)returnshape.getPosition().getX(),(int)returnshape.getPosition().getY(),returnshape.geter().get(0),returnshape.geter().get(1),returnshape.geter().get(2),returnshape.geter().get(3),oo);
+                                }
+                                if(oo.charAt(0)=='r'){
+                                    n[0]++;
+                                    oo="rectangle"+n[0];
+                                    c= (AbstractShapeClass)p.newInstance((int)returnshape.getPosition().getX(),(int)returnshape.getPosition().getY(),returnshape.geter().get(0),returnshape.geter().get(1),oo);
+                                }
+                                if(oo.charAt(0)=='l'){
+                                    j[0]++;
+                                    oo="linesegment"+j[0];
+                                    c= (AbstractShapeClass)p.newInstance((int)returnshape.getPosition().getX(),(int)returnshape.getPosition().getY(),returnshape.geter().get(0),returnshape.geter().get(1),oo);
+                                }
+                                try {
+                                    assert c != null;
+                                    c.setColor(returnshape.getColor());
+                                    c.sethelp(returnshape.getHelp());
+                                }catch(NullPointerException N){}
+                                try {
+                                    c.setFillColor(returnshape.getFillColor());
+                                    c.sethelp("innerarea");
+                                }catch (NullPointerException M){
+                                    c.sethelp(returnshape.getHelp());
+                                }
+                                c.sethelp(returnshape.getHelp());
+                             c.draw(draw_panel.getGraphics());
+                             nav.addShape(c);
+                             comboBox1.addItem(c.getname());
+                                }
+
+                }catch (NullPointerException E){
+                    JOptionPane.showMessageDialog(null,"please, create a figure to copy it");
+                } catch (InstantiationException | InvocationTargetException |
+                         IllegalAccessException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
     public  void redraw(navigator nav){
         for (shape shape:nav.getshapes()) {
             shape.draw(draw_panel.getGraphics());
         }
+    }
+    public ArrayList<String> parseshapeObject(JsonObject shapes)
+    {
+        ArrayList<String>s=new ArrayList<>();
+        JsonObject shape = (JsonObject) shapes.get("shape");
+        String Name = (String) shape.get("name");
+        s.add(Name);
+        //System.out.println(Name);
+        //String constructor =  shape.getString("constructor");
+        //s.add(constructor);
+        //System.out.println(constructor);
+        String fillcolor =  shape.getString("fillcolor");
+        s.add(fillcolor);
+        //System.out.println(fillcolor);
+        String boardercolor =  shape.getString("boardercolor");
+        s.add(boardercolor);
+        //System.out.println(boardercolor);
+        String help =  shape.getString("help");
+        s.add(help );
+        String x1 =  shape.getString("x1");
+        s.add(x1);
+        //System.out.println(x1);
+        String y1 =  shape.getString("y1");
+        s.add(y1);
+
+        //System.out.println(y1);
+        if(Name.charAt(0)=='c'){
+            String horizontalradius =  shape.getString("horizontalradius");
+            s.add(horizontalradius);
+            //System.out.println(horizontalradius);
+            String verticalradius =  shape.getString("verticalradius");
+            s.add(verticalradius);
+            //System.out.println(verticalradius);
+        }
+        if(Name.charAt(0)=='s'){
+            String verticalradius =  shape.getString("side");
+            s.add(verticalradius);
+            //System.out.println(verticalradius);
+        }
+        if(Name.charAt(0)=='t'){
+            String x2 =  shape.getString("x2");
+            s.add(x2);
+            //System.out.println(x2);
+            String y2 =  shape.getString("y2");
+            s.add(y2);
+            //System.out.println(y2);
+            String x3 =  shape.getString("x3");
+            s.add(x3);
+            //System.out.println(x3);
+            String y3 =  shape.getString("y3");
+            s.add(y3);
+            //System.out.println(y3);
+        }
+        if(Name.charAt(0)=='r'){
+            String lenght =  shape.getString("lenght");
+            s.add(lenght);
+            //System.out.println(lenght);
+            String width =  shape.getString("width");
+            s.add(width);
+            //System.out.println(width);
+        }
+        if(Name.charAt(0)=='l'){
+            String x2 =  shape.getString("x2");
+            s.add(x2);
+            //System.out.println(x2);
+            String y2 =  shape.getString("y2");
+            s.add(y2);
+            //System.out.println(y2);
+        }
+        //System.out.println(help);
+        //System.out.println(y2);
+        return s;
     }
 
 

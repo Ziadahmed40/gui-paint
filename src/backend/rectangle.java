@@ -6,16 +6,28 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class rectangle  extends AbstractShapeClass  {
     private double length;
     private double width;
+
     public rectangle(double x, double y, double length, double width,String name){
         setPosition(new Point((int) x, (int) y));
         this.length=length;
         this.width=width;
         setName(name);
         setColor(Color.blue);
+    }
+    public rectangle(){
+
+    }
+    @Override
+    public ArrayList<Integer> geter() {
+        ArrayList<Integer> get = new ArrayList<>();
+        get.add((int) this.length);
+        get.add((int) this.width);
+        return  get;
     }
     @Override
     public void draw(Graphics canvas) {

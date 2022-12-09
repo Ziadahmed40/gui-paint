@@ -2,6 +2,8 @@ package backend;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
 public class line_segment extends AbstractShapeClass {
     private Point point2;
     public line_segment(double x1, double y1, double x2, double y2,String name){
@@ -9,6 +11,16 @@ public class line_segment extends AbstractShapeClass {
          point2=new Point((int)x2,(int) y2);
         setName(name);
         setColor(Color.blue);
+    }
+    public line_segment(){
+
+    }
+    @Override
+    public ArrayList<Integer> geter() {
+        ArrayList<Integer> get = new ArrayList<>();
+        get.add((int) this.point2.getX());
+        get.add((int) this.point2.getY());
+        return  get;
     }
     @Override
     public void draw(Graphics canvas) {

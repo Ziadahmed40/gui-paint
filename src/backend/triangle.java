@@ -2,6 +2,7 @@ package backend;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class triangle extends AbstractShapeClass  {
     private Point point2;
@@ -13,6 +14,18 @@ public class triangle extends AbstractShapeClass  {
         point3=new Point((int) x3, (int) y3);
         setName(name);
         setColor(Color.blue);
+    }
+    public  triangle(){
+
+    }
+    @Override
+    public ArrayList<Integer> geter() {
+        ArrayList<Integer> get = new ArrayList<>();
+        get.add((int) this.point2.getX());
+        get.add((int) this.point2.getY());
+        get.add((int) this.point3.getX());
+        get.add((int) this.point3.getY());
+        return  get;
     }
     @Override
     public void draw(Graphics canvas) {

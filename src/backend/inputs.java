@@ -46,10 +46,10 @@ public class inputs  {
         feild_panel.setLayout(layout);
         inputs_panel.setLayout(layout);
         ArrayList<JTextField> inn = null;
-        if(x==2.0||x==2.1){
+        if(x==2.0||x==2.1||x==1.1){
            inn=generate(2);
         }
-        if(x==1.0||x==1.1){
+        if(x==1.0){
             inn=generate(1);
         }
         if(x==4.0)
@@ -150,8 +150,10 @@ public class inputs  {
             inputs_panel.add(l);
         }
         if(x==1.1){
-            JLabel l=new JLabel("radius");
+            JLabel l=new JLabel("horizontal radius");
             inputs_panel.add(l);
+            JLabel l2=new JLabel("vertical radius");
+            inputs_panel.add(l2);
         }
         JLabel l;
         if(x!=1&&x!=11){

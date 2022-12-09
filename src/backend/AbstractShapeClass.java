@@ -2,6 +2,7 @@ package backend;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public abstract class AbstractShapeClass implements Movebale,shape{
     private Point postion;
@@ -40,7 +41,7 @@ public abstract class AbstractShapeClass implements Movebale,shape{
     public Color getFillColor() {
         return this.colorshape;
     }
-
+  public abstract ArrayList<Integer>geter();
     public abstract void draw(Graphics canvas) ;
     @Override
     public void sethelp(String S) {
@@ -54,7 +55,6 @@ public abstract class AbstractShapeClass implements Movebale,shape{
     public String getHelp() {
         return this.help;
     }
-
     @Override
     public void setDraggingPoint(Point point) {
           this.DraggingPoint=point;
