@@ -23,11 +23,6 @@ public class line_segment extends AbstractShapeClass {
         return  get;
     }
     @Override
-    public void seter(ArrayList<Integer> x) {
-        this.point2=new Point(x.get(0), x.get(1));
-    }
-
-    @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
         Line2D.Double l=new Line2D.Double(getPosition().x,getPosition().y,point2.x,point2.y);
@@ -39,15 +34,7 @@ public class line_segment extends AbstractShapeClass {
             g.setColor(getFillColor());
             g.draw(l);
         }
-//        Point[] point = points();
-//        for (Point point1 : point) {
-//            Rectangle2D.Double r= new Rectangle2D.Double(point1.x,point1.y,10,10);
-//            g.setColor(Color.black);
-//            g.fill(r);
-//            g.draw(r);
-//        }
     }
-
     @Override
     public Point resize(Point cornerPoint, Point p) {
         Point[] points=points();

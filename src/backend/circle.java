@@ -25,13 +25,6 @@ public class circle extends AbstractShapeClass{
         get.add((int) this.verticalradius);
         return  get;
     }
-
-    @Override
-    public void seter(ArrayList<Integer> x) {
-        this.horizontalradius=x.get(0);
-        this.verticalradius=x.get(1);
-    }
-
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
@@ -55,35 +48,26 @@ public class circle extends AbstractShapeClass{
             g.draw(c);
             x=true;
         }
-//        Point[] point = points();
-//        for (Point point1 : point) {
-//            Rectangle2D.Double r= new Rectangle2D.Double(point1.x,point1.y,10,10);
-//            g.setColor(Color.black);
-//            g.fill(r);
-//            g.draw(r);
-//        }
-
     }
-
     @Override
     public Point resize(Point CONRNER, Point p) {
-
         Point[] points=points();
         if (points[0].equals(CONRNER)) {
-            horizontalradius+=(getPosition().x-p.x);
-            verticalradius+=(getPosition().y-p.y);
+            horizontalradius=Math.abs(horizontalradius+(getPosition().x-p.x));
+            verticalradius=Math.abs(verticalradius+(getPosition().y-p.y));
             setPosition(p);
             return points()[0];
         }
         if (points[1].equals(CONRNER)) {
-            horizontalradius+=(getPosition().x-p.x);
-            verticalradius=(getPosition().y-p.y);
+            this.verticalradius=getPosition().y+verticalradius-p.y;
+            this.horizontalradius=p.x-getPosition().x;
+            setPosition(new Point(getPosition().x,p.y));
             return points()[1];
-
         }
         if (points[2].equals(CONRNER)) {
-            horizontalradius+=(CONRNER.x-p.x);
-            verticalradius+=(getPosition().y-p.y);
+            this.verticalradius=p.y-getPosition().y;
+            this.horizontalradius=getPosition().x+horizontalradius-p.x;
+            setPosition(new Point(p.x,getPosition().y));
             return points()[2];
 
         }
@@ -109,9 +93,10 @@ public class circle extends AbstractShapeClass{
     public Point[] points() {
         ArrayList<Point> p=new ArrayList<>();
         p.add(this.getPosition());
-        p.add(new Point(this.getPosition().x, (int) (this.getPosition().y+verticalradius*2)-10));
-        p.add(new Point((int) (this.getPosition().x+horizontalradius*2)-10, (int) (this.getPosition().y+verticalradius*2)-10));
-        p.add(new Point((int) (this.getPosition().x+horizontalradius*2)-10, this.getPosition().y));
+        p.add(new Point(this.getPosition().x, (int) (this.getPosition().y+verticalradius*2)));
+        p.add(new Point((int) (this.getPosition().x+horizontalradius*2), this.getPosition().y));
+        p.add(new Point((int) (this.getPosition().x+horizontalradius*2), (int) (this.getPosition().y+verticalradius*2)));
+
         return p.toArray(new Point[0]);
     }
 

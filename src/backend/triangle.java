@@ -27,13 +27,6 @@ public class triangle extends AbstractShapeClass  {
         get.add((int) this.point3.getY());
         return  get;
     }
-
-    @Override
-    public void seter(ArrayList<Integer> x) {
-        this.point2=new Point(x.get(0), x.get(1));
-       this.point3=new Point(x.get(2), x.get(3));
-    }
-
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;

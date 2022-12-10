@@ -42,7 +42,6 @@ public abstract class AbstractShapeClass implements Movebale,shape{
         return this.colorshape;
     }
   public abstract ArrayList<Integer>geter();
-    public abstract void seter(ArrayList<Integer> x);
     public abstract void draw(Graphics canvas) ;
     public abstract Point resize(Point CONRNER,Point p);
     @Override

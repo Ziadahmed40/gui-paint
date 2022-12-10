@@ -164,7 +164,6 @@ public class paint extends JFrame  {
                             nav.addShape(r);
                             comboBox1.addItem(r.getname());
                             redraw(nav);
-                            System.out.println(Arrays.toString(r.points()));
                         }
                     });
             }
@@ -382,7 +381,7 @@ public class paint extends JFrame  {
                         for (AbstractShapeClass shape : f1) {
                             for (Point point : shape.points()) {
                                 if (shape.getname().equals((comboBox1.getSelectedItem().toString())) && point.distance(e.getPoint())<=10) {
-                                    x22=false;
+                                   //x22=false;
                                     resize =point;
                                     Point selectedPoint=shape.resize(resize,e.getPoint());
                                     if (selectedPoint!=null)
@@ -567,8 +566,8 @@ public class paint extends JFrame  {
                                     }catch (NullPointerException E){
                                     }try {rec.setColor(Color.decode(s.get(2)));
                                     }catch (NullPointerException E){
-                                    }
 
+                                    }
                                     rec.draw(draw_panel.getGraphics());
                                     nav.addShape(rec);
                                     comboBox1.addItem(s.get(0));

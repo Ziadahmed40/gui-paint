@@ -29,13 +29,6 @@ public class rectangle  extends AbstractShapeClass  {
         get.add((int) this.width);
         return  get;
     }
-
-    @Override
-    public void seter(ArrayList<Integer> x) {
-        this.length=x.get(0);
-        this.width=x.get(1);
-    }
-
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
@@ -64,40 +57,31 @@ public class rectangle  extends AbstractShapeClass  {
 
     @Override
     public Point resize(Point corner, Point p) {
-        Point[] points = points();
-
-        int x = 0;
-        int y = 0;
-
-        int index = 0;
-
-        if(corner.equals(points[0])) {
-            x = corner.x - p.x;
-            y = corner.y - p.y;
+        Point[] points=points();
+        if (points[0].equals(corner)) {
+            length=Math.abs(length+(getPosition().x-p.x));
+            width=Math.abs(width+(getPosition().y-p.y));
+            setPosition(p);
+            return points()[0];
         }
+        if (points[1].equals(corner)) {
+            this.length=Math.abs(length+(corner.x-p.x));
+            this.width=Math.abs(width+(p.y-corner.y));
 
-        if(corner.equals(points[1])) {
-            x = corner.x - p.x;
-            y = p.y - corner.y;
-            index = 1;
+            return points()[1];
         }
+        if (points[2].equals(corner)) {
+            this.length=Math.abs(length+(p.x-corner.x));
+            this.width=Math.abs(width+(corner.y-p.y));
+            return points()[2];
 
-        if(corner.equals(points[2])) {
-            x = p.x - corner.x;
-            y = corner.y - p.y;
-            index = 2;
         }
-
-        if(corner.equals(points[3])) {
-            x = p.x - corner.x;
-            y = p.y - corner.y;
-            index = 3;
+        if (points[3].equals(corner)) {
+            this.length=Math.abs(length+(p.x-points[3].x));
+            this.width=Math.abs(width+(p.y-points[3].y));
+            return points()[3];
         }
-
-        length= Math.abs(length+ x);
-         width = Math.abs(width + y);
-
-        return points()[index];
+        return null;
     }
 
 
@@ -119,8 +103,8 @@ public class rectangle  extends AbstractShapeClass  {
         ArrayList<Point> p=new ArrayList<>();
         p.add(new Point(this.getPosition().x-5, this.getPosition().y-5));
         p.add(new Point(this.getPosition().x-5, (int) (this.getPosition().y+width)-5));
-        p.add(new Point((int) (this.getPosition().x+length)-5, (int) (this.getPosition().y+width)-5));
         p.add(new Point((int) (this.getPosition().x+length)-5, this.getPosition().y-5));
+        p.add(new Point((int) (this.getPosition().x+length)-5, (int) (this.getPosition().y+width)-5));
         return p.toArray(new Point[0]);
     }
 }
