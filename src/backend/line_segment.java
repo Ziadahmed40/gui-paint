@@ -63,7 +63,7 @@ public class line_segment extends AbstractShapeClass {
     public Point[] points() {
         ArrayList<Point> p=new ArrayList<>();
         p.add(this.getPosition());
-        p.add(new Point(this.point2.x-10,this.point2.y-10));
+        p.add(new Point(this.point2.x,this.point2.y));
         return p.toArray(new Point[0]);
     }
 

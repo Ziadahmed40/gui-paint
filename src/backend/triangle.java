@@ -97,9 +97,9 @@ public class triangle extends AbstractShapeClass  {
     @Override
     public Point[] points() {
         ArrayList<Point> p=new ArrayList<>();
-        p.add(new Point(this.getPosition().x-10,this.getPosition().y-5));
+        p.add(new Point(this.getPosition().x,this.getPosition().y));
         p.add(new Point(this.point2.x,this.point2.y));
-        p.add(new Point(this.point3.x-5,this.point3.y-10));
+        p.add(new Point(this.point3.x,this.point3.y));
         return p.toArray(new Point[0]);
     }
 

@@ -4,13 +4,13 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 public class circle extends AbstractShapeClass{
-    private double horizontalradius;
-    private double verticalradius;
+    private double width;
+    private double length;
 
     public circle(double x, double y, double hradius,double vradius,String name){
         setPosition(new Point((int) x, (int) y));
-        this.horizontalradius=hradius;
-        this.verticalradius=vradius;
+        this.width=hradius;
+        this.length=vradius;
         setColor(Color.blue);
         setName(name);
     }
@@ -21,14 +21,14 @@ public class circle extends AbstractShapeClass{
     @Override
     public ArrayList<Integer> geter() {
         ArrayList<Integer> get = new ArrayList<>();
-        get.add((int) this.horizontalradius);
-        get.add((int) this.verticalradius);
+        get.add((int) this.width);
+        get.add((int) this.length);
         return  get;
     }
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
-        Ellipse2D.Double c=new Ellipse2D.Double(getPosition().x,getPosition().y,this.horizontalradius*2,this.verticalradius*2);
+        Ellipse2D.Double c=new Ellipse2D.Double(getPosition().x - width/2, getPosition().y-length/2 ,this.width,this.length);
         if (super.getHelp().equals("")){
             g.setColor(getColor());
             g.draw(c);
@@ -50,54 +50,66 @@ public class circle extends AbstractShapeClass{
         }
     }
     @Override
-    public Point resize(Point CONRNER, Point p) {
-        Point[] points=points();
-        if (points[0].equals(CONRNER)) {
-            horizontalradius=Math.abs(horizontalradius+(getPosition().x-p.x));
-            verticalradius=Math.abs(verticalradius+(getPosition().y-p.y));
-            setPosition(p);
-            return points()[0];
-        }
-        if (points[1].equals(CONRNER)) {
-            this.verticalradius=getPosition().y+verticalradius-p.y;
-            this.horizontalradius=p.x-getPosition().x;
-            setPosition(new Point(getPosition().x,p.y));
-            return points()[1];
-        }
-        if (points[2].equals(CONRNER)) {
-            this.verticalradius=p.y-getPosition().y;
-            this.horizontalradius=getPosition().x+horizontalradius-p.x;
-            setPosition(new Point(p.x,getPosition().y));
-            return points()[2];
+    public Point resize(Point corner, Point to) {
+        Point[] points = points();
 
-        }
-        if (points[3].equals(CONRNER)) {
-            this.horizontalradius=Math.abs(horizontalradius+(p.x-points[3].x));
-            this.verticalradius=Math.abs(verticalradius+(p.y-points[3].y));
-            return points()[3];
-        }
-        return null;
+        int x = 0;
+        int y = 0;
 
+        int index = 0;
+
+        if(corner.equals(points[0])) {
+            x = corner.x - to.x;
+            y = corner.y - to.y;
+        }
+
+        if(corner.equals(points[1])) {
+            x = corner.x - to.x;
+            y = to.y - corner.y;
+            index = 1;
+        }
+
+        if(corner.equals(points[2])) {
+            x = to.x - corner.x;
+            y = corner.y - to.y;
+            index = 2;
+        }
+
+        if(corner.equals(points[3])) {
+            x = to.x - corner.x;
+            y = to.y - corner.y;
+            index = 3;
+        }
+
+        width = Math.abs(width + x);
+        length = Math.abs(length + y);
+
+        return points()[index];
     }
 
     @Override
     public boolean Contains(Point point) {
         Point point1=getPosition();
-        Point center=new Point((int) (point1.x+horizontalradius), (int) (point1.y+verticalradius));
-        if(point.distance(center)<horizontalradius&&point.distance(center)<verticalradius)
+        Point center=new Point((int) (point1.x), (int) (point1.y));
+        if(point.distance(center)<width&&point.distance(center)<length)
           return true;
         return false;
     }
-
     @Override
     public Point[] points() {
-        ArrayList<Point> p=new ArrayList<>();
-        p.add(this.getPosition());
-        p.add(new Point(this.getPosition().x, (int) (this.getPosition().y+verticalradius*2)));
-        p.add(new Point((int) (this.getPosition().x+horizontalradius*2), this.getPosition().y));
-        p.add(new Point((int) (this.getPosition().x+horizontalradius*2), (int) (this.getPosition().y+verticalradius*2)));
+        Point point = new Point(
+                getPosition()
+        );
 
-        return p.toArray(new Point[0]);
+        int x = (int) width/2;
+        int y = (int) length/2;
+
+        return new Point[] {
+                new Point(point.x - x, point.y - y), // Top Left
+                new Point(point.x - x, point.y + y), // Bottom Left
+                new Point(point.x + x, point.y - y), // Top Right
+                new Point(point.x + x, point.y + y), // Bottom Right
+        };
     }
 
     @Override

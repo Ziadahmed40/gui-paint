@@ -1,12 +1,16 @@
 package backend;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class navigator implements DrawingEngine{
+public class navigator extends JPanel implements DrawingEngine{
     private List<shape>shapes;
     private  String key="";
+
+    private Point[] points = {};
+
     public navigator(){
         this.shapes=new ArrayList<>();
     }
@@ -39,8 +43,31 @@ public class navigator implements DrawingEngine{
     }
 
     @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        for (shape s: shapes) {
+            s.draw(g);
+        }
+
+        for (Point point: points) {
+            g.setColor(Color.black);
+            g.fillRect(point.x-5, point.y-5, 10, 10);
+        }
+    }
+
+    public void setPoints(Point[] points) {
+        this.points = points;
+
+        refresh();
+    }
+
+    @Override
     public void refresh(Graphics canvas) {
-        Graphics2D g=(Graphics2D) canvas;
-       g.clearRect(0,0,1900,1900);
+        this.repaint();
+    }
+
+    public void refresh() {
+        this.refresh(null);
     }
 }

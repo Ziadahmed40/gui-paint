@@ -32,7 +32,7 @@ public class rectangle  extends AbstractShapeClass  {
     @Override
     public void draw(Graphics canvas) {
         Graphics2D g=(Graphics2D) canvas;
-        Rectangle2D.Double r= new Rectangle2D.Double(getPosition().x,getPosition().y,this.length,this.width);
+        Rectangle2D.Double r= new Rectangle2D.Double(getPosition().x-width/2,getPosition().y-length/2,this.width,this.length);
 
         if (super.getHelp().equals("")){
             g.setColor(getColor());
@@ -56,38 +56,47 @@ public class rectangle  extends AbstractShapeClass  {
     }
 
     @Override
-    public Point resize(Point corner, Point p) {
-        Point[] points=points();
-        if (points[0].equals(corner)) {
-            length=Math.abs(length+(getPosition().x-p.x));
-            width=Math.abs(width+(getPosition().y-p.y));
-            setPosition(p);
-            return points()[0];
-        }
-        if (points[1].equals(corner)) {
-            this.length=Math.abs(length+(corner.x-p.x));
-            this.width=Math.abs(width+(p.y-corner.y));
+    public Point resize(Point corner, Point to) {
+        Point[] points = points();
 
-            return points()[1];
-        }
-        if (points[2].equals(corner)) {
-            this.length=Math.abs(length+(p.x-corner.x));
-            this.width=Math.abs(width+(corner.y-p.y));
-            return points()[2];
+        int x = 0;
+        int y = 0;
 
+        int index = 0;
+
+        if(corner.equals(points[0])) {
+            x = corner.x - to.x;
+            y = corner.y - to.y;
         }
-        if (points[3].equals(corner)) {
-            this.length=Math.abs(length+(p.x-points[3].x));
-            this.width=Math.abs(width+(p.y-points[3].y));
-            return points()[3];
+
+        if(corner.equals(points[1])) {
+            x = corner.x - to.x;
+            y = to.y - corner.y;
+            index = 1;
         }
-        return null;
+
+        if(corner.equals(points[2])) {
+            x = to.x - corner.x;
+            y = corner.y - to.y;
+            index = 2;
+        }
+
+        if(corner.equals(points[3])) {
+            x = to.x - corner.x;
+            y = to.y - corner.y;
+            index = 3;
+        }
+
+        width = Math.abs(width + x);
+        length = Math.abs(length + y);
+
+        return points()[index];
     }
 
 
     @Override
     public boolean Contains(Point point) {
-        Rectangle2D.Double r= new Rectangle2D.Double(getPosition().x,getPosition().y,this.length,this.width);
+        Rectangle2D.Double r= new Rectangle2D.Double(getPosition().x-width/2,getPosition().y-length/2,this.width,this.length);
             return r.contains(point);
     }
     @Override
@@ -99,12 +108,20 @@ public class rectangle  extends AbstractShapeClass  {
             setPosition(point);
         }catch (NullPointerException N){}
     };
-    public Point[] points(){
-        ArrayList<Point> p=new ArrayList<>();
-        p.add(new Point(this.getPosition().x-5, this.getPosition().y-5));
-        p.add(new Point(this.getPosition().x-5, (int) (this.getPosition().y+width)-5));
-        p.add(new Point((int) (this.getPosition().x+length)-5, this.getPosition().y-5));
-        p.add(new Point((int) (this.getPosition().x+length)-5, (int) (this.getPosition().y+width)-5));
-        return p.toArray(new Point[0]);
+    @Override
+    public Point[] points() {
+        Point point = new Point(
+                getPosition()
+        );
+
+        int x = (int) width/2;
+        int y = (int) length/2;
+
+        return new Point[] {
+                new Point(point.x - x, point.y - y), // Top Left
+                new Point(point.x - x, point.y + y), // Bottom Left
+                new Point(point.x + x, point.y - y), // Top Right
+                new Point(point.x + x, point.y + y), // Bottom Right
+        };
     }
 }
